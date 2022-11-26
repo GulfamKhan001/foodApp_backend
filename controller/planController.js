@@ -1,0 +1,120 @@
+const planModel = require("../models/planModel");
+
+module.exports.getAllPlans = async function (req, res) {
+    try {
+        let allPlans = await planModel.find();
+        if (allPlans){
+            res.json({
+                msg: "All Available Plans",
+                allPlans,
+            });
+        } else {
+            res.json({
+                msg: "No plan currently available",
+            });
+        }
+    } catch (err) {
+        res.json({
+            msg: err.message,
+        });
+    }
+};
+
+module.exports.getPlans = async function (req, res) {
+    try {
+        let id = req.params.id;
+        let plan = await planModel.findById(id);
+
+        res.json({ msg: "plan retrieved", plan });
+    } catch (err) {
+        res.json({
+            msg: err.message,
+        });
+    }
+};
+
+module.exports.createPlan=async function (req, res) {
+    try {
+      let data = req.body; //nep
+        let plan = await planModel.create(data);
+        if (user) {
+            res.json({
+              msg: "Plan created",
+              plan,
+            });
+        }
+        else {
+            res.json({
+              msg: "Plan could not be created"
+            });
+        }
+    } catch (err) {
+      res.json({
+        err: err.message,
+      });
+    }
+  }
+
+module.exports.deletePlan = async function (req, res) {
+    try {
+      let id = req.params.id;
+      // let doc = await userModel.deleteOne({ email: "abcd@gmail.com" });
+      // let doc = await userModel.findOneAndRemove({ email: "abcde@gmail.com" });
+      let plan = await planModel.findByIdAndDelete(id);
+      res.json({
+        msg: "user has been deleted",
+        plan,
+      });
+    } catch (err) {
+      res.json({
+        msg: err.message,
+      });
+    }
+};
+
+
+module.exports.updatePlan = async function (req, res) {
+    // console.log(req.body);
+    let id = req.params.id;
+    let plan = await planModel.findById(id);
+    let planToBeUpdated = req.body;
+    try {
+      if (plan) {
+        const keys = []; //['name','email]
+        for (let key in planToBeUpdated) {
+          keys.push(key);
+        }
+  
+        for (let i = 0; i < keys.length; i++) {
+          plan[keys[i]] = planToBeUpdated[keys[i]];
+        }
+  
+        const updatedData = await plan.save();
+        res.json({
+          message: "data updated succesfully",
+          updatedData,
+        });
+      } else {
+        res.json({
+          message: "plan not found",
+        });
+      }
+    } catch (err) {
+      res.json({
+        message: err.message,
+      });
+    }
+  };
+
+  module.exports.getPlans = async function (req, res) {
+    try {
+        let id = req.params.id;
+        let plan = await planModel.findById(id);
+
+        res.json({ msg: "plan retrieved", plan });
+    } catch (err) {
+        res.json({
+            msg: err.message,
+        });
+    }
+};
