@@ -7,7 +7,12 @@ const {
     getPlan, 
     createPlan, 
     updatePlan, 
-    deletePlan } = require('../controller/planController');
+    deletePlan,
+    top3plan } = require('../controller/planController');
+
+const {
+        isAuthorised,
+        protectRoute} = require('../helper');
 
 planRouter
     .route('/all')
@@ -20,7 +25,7 @@ planRouter
 
 planRouter.use(protectRoute) //logged in hai ya nhi 
 planRouter
-    .route('/plan/:id')
+    .route('/Single/:id')
     .get(getPlan)
 
 planRouter.use(isAuthorised(['admin','restaurantowner'])) // logged in , lekin role 
@@ -33,4 +38,4 @@ planRouter
     .patch(updatePlan)
     .delete(deletePlan)
 
-module.exports = PlanRouter;
+module.exports =planRouter ;

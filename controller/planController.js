@@ -4,12 +4,12 @@ module.exports.getAllPlans = async function (req, res) {
     try {
         let allPlans = await planModel.find();
         if (allPlans){
-            res.json({
+            return res.json({
                 msg: "All Available Plans",
                 allPlans,
             });
         } else {
-            res.json({
+            return res.json({
                 msg: "No plan currently available",
             });
         }
@@ -20,13 +20,15 @@ module.exports.getAllPlans = async function (req, res) {
     }
 };
 
-module.exports.getPlans = async function (req, res) {
+module.exports.getPlan = async function (req, res) {
     try {
         let id = req.params.id;
         let plan = await planModel.findById(id);
+        // console.log(plan);
 
         res.json({ msg: "plan retrieved", plan });
     } catch (err) {
+        // console.log(err);
         res.json({
             msg: err.message,
         });
@@ -35,23 +37,18 @@ module.exports.getPlans = async function (req, res) {
 
 module.exports.createPlan=async function (req, res) {
     try {
-      let data = req.body; //nep
+        let data = req.body; //nep
         let plan = await planModel.create(data);
-        if (user) {
-            res.json({
-              msg: "Plan created",
-              plan,
-            });
-        }
-        else {
-            res.json({
-              msg: "Plan could not be created"
-            });
-        }
+        console.log(plan);
+        res.json({
+            msg: "Plan created",
+            plan,
+          });
     } catch (err) {
-      res.json({
-        err: err.message,
-      });
+        console.log(err);
+        res.json({
+            err: err.message,
+        });
     }
   }
 
@@ -62,7 +59,7 @@ module.exports.deletePlan = async function (req, res) {
       // let doc = await userModel.findOneAndRemove({ email: "abcde@gmail.com" });
       let plan = await planModel.findByIdAndDelete(id);
       res.json({
-        msg: "user has been deleted",
+        msg: "Plan has been deleted",
         plan,
       });
     } catch (err) {
@@ -106,15 +103,17 @@ module.exports.updatePlan = async function (req, res) {
     }
   };
 
-  module.exports.getPlans = async function (req, res) {
+module.exports.top3plan = async function (req, res) {
     try {
-        let id = req.params.id;
-        let plan = await planModel.findById(id);
-
-        res.json({ msg: "plan retrieved", plan });
-    } catch (err) {
+        const plans = await planModel.find().sort({ ratingsAverage: -1 }).limit(3);
+        return res.json({
+            msg: "top3 plans",
+            data:plans
+        })
+    }
+    catch (err) {
         res.json({
-            msg: err.message,
-        });
+            msg:err.message
+        })
     }
 };
