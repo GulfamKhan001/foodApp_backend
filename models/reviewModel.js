@@ -30,7 +30,21 @@ const reviewSchema = mongoose.Schema({
         ref: "userModel",
         required : [true, "Vaild User required"]
     },
+    plan: {
+        type: mongoose.Schema.ObjectId,
+        ref: "planModel",
+        required: [true, "plan must belong to a user"],
+    },
 });
+
+//find findbyid, findone , findoneandupdate 
+reviewSchema.pre(/^find/, function (next) {
+    this.populate({
+        path: 'user',
+        select: "name profileImage"
+    }).populate("plan");
+    next();
+})
 
 const reviewModel = mongoose.model("reviewModel", reviewSchema);
 module.exports = reviewModel;
