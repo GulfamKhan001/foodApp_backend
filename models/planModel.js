@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 const { db_link } = require("../secrets");
 mongoose
-  .connect(db_link)
-  .then(function (db) {
-    console.log("plan db connected");
-    // console.log(db);
-  })
-  .catch(function (err) {
-    console.log(err);
-  });
+    .connect(db_link)
+    .then(function (db) {
+        console.log("plan db connected");
+        // console.log(db);
+    })
+    .catch(function (err) {
+        console.log(err);
+    });
 
 const planSchema = mongoose.Schema({
     name: {
@@ -32,7 +32,12 @@ const planSchema = mongoose.Schema({
         }, 'discount cannot be 100%']
     },
     ratingsAverage: {
-        type: Number
+        type: Number,
+        default: 0,
+    },
+    nor: {
+        type: Number,
+        default: 0
     }
 });
 

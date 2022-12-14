@@ -15,7 +15,7 @@ const {
         protectRoute} = require('../helper');
 
 planRouter
-    .route('/all')
+    .route('/allPlans')
     .get(getAllPlans);
 
 planRouter
@@ -25,7 +25,7 @@ planRouter
 
 planRouter.use(protectRoute) //logged in hai ya nhi 
 planRouter
-    .route('/Single/:id')
+    .route('/single/:id')
     .get(getPlan)
 
 planRouter.use(isAuthorised(['admin','restaurantowner'])) // logged in , lekin role 
@@ -34,7 +34,7 @@ planRouter
     .post(createPlan)
 
 planRouter
-    .route('/crudPlan/:id')
+    .route('/crud/:id')
     .patch(updatePlan)
     .delete(deletePlan)
 

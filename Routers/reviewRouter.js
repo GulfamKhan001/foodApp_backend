@@ -1,6 +1,8 @@
 const express = require("express");
 const reviewRouter = express.Router();
-const { isAuthorised, protectRoute } = require('../helper');
+const { 
+    isAuthorised, 
+    protectRoute } = require('../helper');
 
 const {
     getAllReviews, 
@@ -18,18 +20,15 @@ reviewRouter
     .route("/top3")
     .get(top3Review);
 
-reviewRouter.use(protectRoute)
 reviewRouter
     .route("/:id")
-    .get(getPlanReview);
+    .get(getPlanReview);   
 
-reviewRouter
-    .route("/comment/:id")
-    .post(createReview);
-
+reviewRouter.use(protectRoute)
 reviewRouter.use(isAuthorised(['user']))
 reviewRouter
-    .route("/review/:id")
+    .route("/curd/:id")
+    .post(createReview)
     .patch(updateReview)
     .delete(deleteReview)
 

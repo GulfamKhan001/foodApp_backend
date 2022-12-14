@@ -33,7 +33,7 @@ const userSchema = mongoose.Schema({
   },
   confirmPassword: {
     type: String,
-    required: true,
+    // required: true,
     minLength: 7,
     validate: function () {
       return this.confirmPassword == this.password;
@@ -74,9 +74,10 @@ userSchema.pre("save", function () {
 //     // console.log(hashedString);
 // })
 
-userSchema.methods.createResetToken = function () {
+userSchema.methods.createResetToken = async function () {
   const resetToken = uuidv4(); 
   this.resetToken = resetToken;
+  await this.save();
   return resetToken;
 }
 
