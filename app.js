@@ -1,5 +1,9 @@
 const express = require("express");
 const app = express();
+let cors = require("cors");
+
+app.use(cors());
+app.use(express.static('public/build'));
 const cookieParser = require("cookie-parser");
 
 app.use(express.json());
@@ -17,4 +21,4 @@ app.use("/plan", planRouter);
 app.use("/review", reviewRouter);
 app.use('/booking', bookingRouter);
 
-app.listen(5000);
+app.listen(process.env.PORT || 5000);

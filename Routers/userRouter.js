@@ -40,7 +40,7 @@ userRouter
   .post(resetpassword);
 
 userRouter
-  .route("/logout")
+  .route("/logout") 
   .get(logout);
 
 //profile page
