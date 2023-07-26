@@ -5,7 +5,7 @@ module.exports.getAllPlans = async function (req, res) {
         let allPlans = await planModel.find();
         if (allPlans){
             return res.json({
-                msg: "All Available Plans",
+                // msg: "All Available Plans",
                 allPlans,
             });
         } else {
@@ -26,7 +26,7 @@ module.exports.getPlan = async function (req, res) {
         let plan = await planModel.findById(id);
         // console.log(plan);
 
-        res.json({ msg: "plan retrieved", plan });
+        res.json({ msg: "plan retrieved", data:plan });
     } catch (err) {
         // console.log(err);
         res.json({

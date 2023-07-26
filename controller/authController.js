@@ -21,6 +21,7 @@ module.exports.signup=async function (req, res) {
           });
       }
   } catch (err) {
+    console.log("====",err)
     res.json({
       err: err.message,
     });
@@ -37,9 +38,12 @@ module.exports.login=async function (req, res) {
       if (password == user.password) {
         let uid = user["_id"];
         var token = jwt.sign({ payload: uid }, JWT_KEY);
-        res.cookie("login", token);
+        // console.log(token);
+        // res.cookie("login", token);
         res.json({
           msg: "user logged in",
+          data: user,
+          tok: token
         });
       } else {
         res.json({
@@ -116,7 +120,6 @@ module.exports.resetpassword = async function (req, res) {
 }
 
 module.exports.logout = function (req,res) {
-  res.cookie('login', ' ', { maxAge: 1 });
   res.json({
     msg:'user logged out successfully'
   })

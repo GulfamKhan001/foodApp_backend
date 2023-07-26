@@ -39,12 +39,13 @@ module.exports.top3Review = async function (req, res) {
 module.exports.getPlanReview = async function (req, res) {
   try {
     const planId = req.params.id;
+    console.log(planId);
     let reviews = await reviewModel.find();
     reviews = reviews.filter(review => review.plan["_id"] == planId);
     if (reviews) {
       return res.json({
         msg: "reviews retrieved",
-        reviews,
+        data: reviews,
       });
     } else {
       return res.json({

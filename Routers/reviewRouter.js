@@ -27,7 +27,7 @@ reviewRouter
 reviewRouter.use(protectRoute)
 reviewRouter.use(isAuthorised(['user']))
 reviewRouter
-    .route("/curd/:id")
+    .route("/crud/:id")
     .post(createReview)
     .patch(updateReview)
     .delete(deleteReview)
