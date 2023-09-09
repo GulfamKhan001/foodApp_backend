@@ -39,7 +39,7 @@ module.exports.top3Review = async function (req, res) {
 module.exports.getPlanReview = async function (req, res) {
   try {
     const planId = req.params.id;
-    console.log(planId);
+    // console.log(planId);
     let reviews = await reviewModel.find();
     reviews = reviews.filter(review => review.plan["_id"] == planId);
     if (reviews) {
@@ -63,13 +63,13 @@ module.exports.getPlanReview = async function (req, res) {
 module.exports.createReview = async function (req, res) {
   try {
     let data = req.body;
-    const planId = req.params.plan;
+    const planId = data.plan;
     const plan = await planModel.findById(planId); //nep
-    let comment = await reviewModel.create(data);
     plan.ratingsAverage =
-      (plan.ratingsAverage * plan.nor + req.body.rating) / (plan.nor + 1);
+      ((plan.ratingsAverage * plan.nor) + parseInt(data.rating)) / (plan.nor + 1);
     plan.nor += 1;
     await plan.save();
+    let comment = await reviewModel.create(data);
     await comment.save();
     res.json({
       msg: "review created",
@@ -128,13 +128,19 @@ module.exports.deleteReview = async function (req, res) {
     let id = req.body.id;
     // let doc = await userModel.deleteOne({ email: "abcd@gmail.com" });
     // let doc = await userModel.findOneAndRemove({ email: "abcde@gmail.com" });
-    let review = await reviewModel.findByIdAndDelete(id);
+    let review = await reviewModel.findById(id);
+    const plan = await planModel.findById(planid);
+    plan.ratingsAverage =
+        ((plan.ratingsAverage * plan.nor) - review.rating) / (plan.nor - 1);
+    plan.nor -= 1;
+    await plan.save();
+    let DeletedReview = await reviewModel.findByIdAndDelete(id);
     res.json({
       msg: "Review has been deleted",
       review,
     });
   } catch (err) {
-    res.json({
+    res.status(400).json({
       msg: err.message,
     });
   }

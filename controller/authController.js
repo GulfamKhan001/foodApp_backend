@@ -1,8 +1,6 @@
 const userModel = require("../models/userModel");
 var jwt = require("jsonwebtoken");
 const { JWT_KEY } = require('../secrets');
-// const { use } = require("../Routers/userRouter");
-// console.log("1234 ", JWT_KEY);
 const { sendMail } = require('../utility/nodemailer')
 module.exports.signup=async function (req, res) {
   try {
@@ -38,8 +36,6 @@ module.exports.login=async function (req, res) {
       if (password == user.password) {
         let uid = user["_id"];
         var token = jwt.sign({ payload: uid }, JWT_KEY);
-        // console.log(token);
-        // res.cookie("login", token);
         res.json({
           msg: "user logged in",
           data: user,

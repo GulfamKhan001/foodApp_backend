@@ -5,6 +5,7 @@ const { JWT_KEY } = require("./secrets");
 //protectRoute
 module.exports.protectRoute = async function (req, res, next) {
   let token = req.get('auth');
+  // console.log(token);
   if (token) {
     let payloadObj = jwt.verify(token, JWT_KEY);
     const user = await userModel.findById(payloadObj.payload);
@@ -28,7 +29,7 @@ module.exports.protectRoute = async function (req, res, next) {
 module.exports.isAuthorised = function (roles) {
   return function (req, res, next) {
     let role = req.get('role');
-    console.log(roles);
+    // console.log(roles);
     if (roles.includes(role)) {
       next();
     }
