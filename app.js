@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 let cors = require("cors");
-console.log(process.env.HELLO);
 app.use(cors());
 app.use(express.static('public/build'));
 const cookieParser = require("cookie-parser");
