@@ -14,7 +14,7 @@ const authRouter = require('./Routers/authRouter');
 const planRouter = require("./Routers/PlanRouter");
 const reviewRouter = require("./Routers/reviewRouter");
 // const bookingRouter = require("./Routers/bookingRouter");
-
+console.log(process.env.HELLO);
 app.use("/user", userRouter);
 app.use("/auth", authRouter);
 app.use("/plans", planRouter);
