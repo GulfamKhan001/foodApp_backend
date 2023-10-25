@@ -87,7 +87,7 @@ module.exports.allUser = async function (req, res) {
       allUsers,
     });
   } catch (err) {
-    res.json({
+    res.status(401).json({
       msg: err.message,
     });
   }

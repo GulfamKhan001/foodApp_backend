@@ -13,12 +13,12 @@ module.exports.protectRoute = async function (req, res, next) {
     req.role = user.role;
     if (payloadObj) next();
     else {
-      req.json({
+      res.status(401).json({
         msg: "user not verified",
       });
     }
   } else {
-    return res.json({
+    return res.status(401).json({
       msg: "opertion not allowed",
     });
   }
